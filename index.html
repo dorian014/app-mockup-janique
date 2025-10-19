@@ -297,6 +297,65 @@
         .screen {
             -ms-overflow-style: -ms-autohiding-scrollbar;
         }
+
+        /* Tab Navigation Styles */
+        .tab-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #00aaff, #0088cc);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.3);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: tabShine 2s infinite;
+        }
+
+        @keyframes tabShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
@@ -431,9 +490,21 @@
                 <!-- Screen 2: Globe Goals (Quests) -->
                 <div id="quests" class="screen p-6 h-[calc(100%-80px)] overflow-y-auto text-white">
                     <h1 class="text-3xl font-bold brand-gradient-text mb-1">Globe Goals</h1>
-                    <p class="text-gray-400 text-sm mb-6">Active in London, United Kingdom</p>
+                    <p class="text-gray-400 text-sm mb-4">Active in London, United Kingdom</p>
 
-                    <div class="space-y-4">
+                    <!-- Tab Navigation -->
+                    <div class="tab-nav">
+                        <button class="tab-btn active" onclick="switchTab('active-goals', this)">
+                            🎯 Active Goals
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('achievements', this)">
+                            🏆 Stats & Achievements
+                        </button>
+                    </div>
+
+                    <!-- Tab Content: Active Goals -->
+                    <div id="active-goals" class="tab-content active">
+                        <div class="space-y-4">
                         <!-- Active Quest -->
                         <div class="glass-card p-5 rounded-2xl border-l-4 border-blue-500">
                             <div class="flex items-start gap-4">
@@ -480,10 +551,13 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
                     </div>
 
-                    <!-- Achievements & Badges Section -->
-                    <div class="mt-6 glass-card p-4 rounded-2xl">
+                    <!-- Tab Content: Stats & Achievements -->
+                    <div id="achievements" class="tab-content">
+                        <!-- Achievements & Badges Section -->
+                        <div class="glass-card p-4 rounded-2xl">
                         <h3 class="font-semibold text-white mb-3 flex items-center gap-2">
                             <span class="text-2xl">🏆</span> Recent Achievements
                         </h3>
@@ -538,6 +612,7 @@
                                 <p class="text-xs text-gray-400">XP Earned</p>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
 
@@ -608,6 +683,20 @@
     <script>
         const screens = document.querySelectorAll('.screen');
         const navItems = document.querySelectorAll('.nav-item');
+
+        function switchTab(tabId, element) {
+            // Get all tab buttons and contents within the quests screen
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Update active tab button
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            // Update active tab content
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
 
         function switchScreen(screenId, element) {
             const currentScreen = document.querySelector('.screen.active');
