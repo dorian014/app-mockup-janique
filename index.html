@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gotham Voyager App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #E5E7EB; /* Light gray background */
+        }
+        .phone-container {
+            width: 414px;
+            height: 896px;
+        }
+        .screen {
+            display: none;
+            background-color: #F9FAFB; /* Off-white screen background */
+        }
+        .screen.active {
+            display: block;
+        }
+        .nav-item.active svg,
+        .nav-item.active p {
+            color: #00aaff; /* Gotham Brand Blue */
+        }
+        /* Custom gradient for the main card from presentation */
+        .app-main-card-bg {
+             background: linear-gradient(135deg, #EA580C, #6B21A8);
+        }
+        /* Light card style */
+        .card-bg {
+            background-color: #ffffff;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        /* Gradient text from presentation */
+        .brand-gradient-text {
+            background: linear-gradient(90deg, #00aaff, #f7b600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="phone-container bg-black rounded-[60px] border-[14px] border-gray-800 shadow-2xl overflow-hidden relative">
+        <div class="absolute top-0 left-0 right-0 h-8 bg-black flex justify-center items-center rounded-t-[46px]">
+             <div class="w-40 h-6 bg-black rounded-b-2xl absolute top-0"></div>
+        </div>
+        
+        <main class="w-full h-full pt-8">
+            <!-- Screen 1: Home -->
+            <div id="home" class="screen active p-6 h-[calc(100%-80px)] overflow-y-auto text-gray-800" style="background-image: linear-gradient(to bottom right, #ffffff, #f0f2f5);">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <p class="text-gray-500">Welcome back,</p>
+                        <h1 class="text-2xl font-bold brand-gradient-text">Alex</h1>
+                    </div>
+                    <div class="w-12 h-12 rounded-full border-2 border-purple-400 p-0.5">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar" class="rounded-full">
+                    </div>
+                </div>
+
+                <!-- Main Balance Card -->
+                <div class="app-main-card-bg text-white p-6 rounded-2xl mb-6 shadow-lg shadow-purple-500/30">
+                    <p class="text-gray-200 text-sm">Main Balance</p>
+                    <p class="text-4xl font-bold tracking-tight">£1,250.75</p>
+                    <p class="text-gray-300 mt-2 font-mono text-sm">**** **** **** 1234</p>
+                </div>
+                
+                <!-- Multi-Currency Wallet -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3">Your Wallets</h2>
+                     <div class="card-bg p-4 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-200">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xl font-bold text-orange-900">€450.30</p>
+                                <p class="text-sm text-orange-800/80">Euro Wallet</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-gray-700">1 GBP = 1.18 EUR</p>
+                                <p class="text-xs text-amber-600 font-semibold">Live Rate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Recent Transactions -->
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3">Recent Transactions</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 card-bg rounded-lg border-l-4 border-red-400">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3 text-xl">☕️</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Café de Flore</p>
+                                    <p class="text-sm text-gray-500">Paris, France</p>
+                                </div>
+                            </div>
+                            <p class="font-semibold text-red-600">-€5.50</p>
+                        </div>
+                        <div class="flex items-center justify-between p-3 card-bg rounded-lg border-l-4 border-purple-400">
+                             <div class="flex items-center">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3 text-xl">🖼️</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Musée du Louvre</p>
+                                    <p class="text-sm text-gray-500">Paris, France</p>
+                                </div>
+                            </div>
+                            <p class="font-semibold text-red-600">-€17.00</p>
+                        </div>
+                        <div class="flex items-center justify-between p-3 card-bg rounded-lg border-l-4 border-green-400">
+                           <div class="flex items-center">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3 text-xl">🚇</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Paris Metro</p>
+                                    <p class="text-sm text-gray-500">Paris, France</p>
+                                </div>
+                            </div>
+                            <p class="font-semibold text-red-600">-€2.10</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 2: Quests -->
+            <div id="quests" class="screen p-6 h-[calc(100%-80px)] overflow-y-auto text-gray-800">
+                <h1 class="text-3xl font-bold mb-1 brand-gradient-text">Voyager Quests</h1>
+                <p class="text-gray-500 mb-6">Active in Paris, France</p>
+                
+                <div class="space-y-4">
+                    <div class="card-bg p-4 rounded-2xl bg-gradient-to-br from-white to-purple-100">
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">🥐</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Parisian Foodie</h3>
+                                <p class="text-sm text-gray-600 mb-3">Make a purchase at a bakery, a fromagerie, and a café.</p>
+                                <p class="text-xs font-semibold text-purple-700 mb-2">REWARD: 1.5x Points Boost</p>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-purple-500 h-2.5 rounded-full" style="width: 33%"></div>
+                                </div>
+                                <p class="text-xs text-right text-gray-500 mt-1">1 of 3 complete</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="card-bg p-4 rounded-2xl bg-gradient-to-br from-white to-blue-100">
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">🏛️</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Museum Marathon</h3>
+                                <p class="text-sm text-gray-600 mb-3">Visit and make a purchase at 2 different museums.</p>
+                                <p class="text-xs font-semibold text-blue-700 mb-2">REWARD: "Culture Vulture" Badge</p>
+                                 <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 50%"></div>
+                                </div>
+                                <p class="text-xs text-right text-gray-500 mt-1">1 of 2 complete</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-bg p-4 rounded-2xl opacity-70 bg-gradient-to-br from-white to-green-100">
+                        <div class="flex items-start">
+                            <div class="text-3xl mr-4">✅</div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-500 line-through">Transport Tamer</h3>
+                                <p class="text-sm text-gray-400 mb-3">Use your card on the Metro, a bus, and a city bike.</p>
+                                <p class="text-xs font-semibold text-green-700 mb-2">REWARD: £5 Cashback (Claimed)</p>
+                                 <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 100%"></div>
+                                </div>
+                                <p class="text-xs text-right text-gray-500 mt-1">3 of 3 complete</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 3: Support -->
+            <div id="support" class="screen p-6 h-[calc(100%-80px)] flex flex-col justify-center items-center text-center text-gray-800" style="background-image: radial-gradient(circle, #E0F2FE, #F9FAFB 60%);">
+                 <div class="w-24 h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                 </div>
+                <h1 class="text-3xl font-bold mb-2 brand-gradient-text">Concierge+</h1>
+                <p class="text-gray-600 max-w-sm mb-8">Get instant help with travel emergencies, card issues, or disputes. Our award-winning team is here for you 24/7.</p>
+
+                <button class="w-full bg-[#00aaff] hover:bg-blue-500 text-white font-bold py-4 px-4 rounded-2xl mb-4 transition-transform transform hover:scale-105 shadow-lg shadow-blue-500/30">
+                    Contact Support 24/7
+                </button>
+                <button class="w-full bg-red-100 hover:bg-red-200 text-red-700 font-bold py-4 px-4 rounded-2xl transition-transform transform hover:scale-105">
+                    Freeze Card Immediately
+                </button>
+            </div>
+        </main>
+        
+        <!-- Bottom Navigation -->
+        <nav class="absolute bottom-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-sm border-t border-gray-200 flex justify-around items-center rounded-b-[46px]">
+            <button class="nav-item active flex flex-col items-center justify-center text-gray-500" onclick="switchScreen('home', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                <p class="text-xs mt-1">Home</p>
+            </button>
+            <button class="nav-item flex flex-col items-center justify-center text-gray-500" onclick="switchScreen('quests', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <p class="text-xs mt-1">Quests</p>
+            </button>
+            <button class="nav-item flex flex-col items-center justify-center text-gray-500" onclick="switchScreen('support', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <p class="text-xs mt-1">Support</p>
+            </button>
+        </nav>
+    </div>
+
+    <script>
+        const screens = document.querySelectorAll('.screen');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        function switchScreen(screenId, element) {
+            // Hide all screens
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+            // Show the target screen
+            document.getElementById(screenId).classList.add('active');
+
+            // Update nav item active state
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            // Add active class to the clicked button
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+
