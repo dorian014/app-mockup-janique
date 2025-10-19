@@ -356,6 +356,66 @@
         .tab-content.active {
             display: block;
         }
+
+        /* Badge Styles */
+        .achievement-badge {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            position: relative;
+            background: #1a1f2e;
+            padding: 2px;
+            overflow: hidden;
+        }
+
+        .achievement-badge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .achievement-badge.culture-badge {
+            --gradient-start: #00aaff;
+            --gradient-end: #00ffaa;
+        }
+
+        .achievement-badge.foodie-badge {
+            --gradient-start: #9333ea;
+            --gradient-end: #ec4899;
+        }
+
+        .achievement-badge-inner {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2a3447 0%, #1a1f2e 100%);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .achievement-badge-icon {
+            font-size: 32px;
+            margin-bottom: 4px;
+        }
+
+        .achievement-badge-label {
+            font-size: 8px;
+            color: #9ca3af;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            line-height: 1;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
@@ -562,21 +622,29 @@
                             <span class="text-2xl">🏆</span> Recent Achievements
                         </h3>
                         <div class="grid grid-cols-3 gap-3 mb-4">
-                            <div class="text-center">
-                                <div class="mb-1">
-                                    <img src="assets/badge1.png" alt="Globe Trotter Badge" class="w-12 h-12 mx-auto rounded-full shadow-lg" />
+                            <div class="flex flex-col items-center">
+                                <div class="achievement-badge culture-badge mb-2">
+                                    <div class="achievement-badge-inner">
+                                        <div class="achievement-badge-icon">🏛️</div>
+                                        <div class="achievement-badge-label">CULTURE<br/>VULTURE</div>
+                                    </div>
                                 </div>
-                                <p class="text-xs text-gray-400">Globe Trotter</p>
                             </div>
-                            <div class="text-center">
-                                <div class="mb-1">
-                                    <img src="assets/badge2.png" alt="Goal Crusher Badge" class="w-12 h-12 mx-auto rounded-full shadow-lg" />
+                            <div class="flex flex-col items-center">
+                                <div class="achievement-badge foodie-badge mb-2">
+                                    <div class="achievement-badge-inner">
+                                        <div class="achievement-badge-icon">🥐</div>
+                                        <div class="achievement-badge-label">PARISIAN<br/>FOODIE</div>
+                                    </div>
                                 </div>
-                                <p class="text-xs text-gray-400">Goal Crusher</p>
                             </div>
-                            <div class="text-center">
-                                <div class="text-3xl mb-1">💎</div>
-                                <p class="text-xs text-gray-400">Diamond Status</p>
+                            <div class="flex flex-col items-center">
+                                <div class="achievement-badge" style="--gradient-start: #fbbf24; --gradient-end: #f59e0b;">
+                                    <div class="achievement-badge-inner">
+                                        <div class="achievement-badge-icon">💎</div>
+                                        <div class="achievement-badge-label">DIAMOND<br/>STATUS</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <button class="w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all transform hover:scale-105" style="background: linear-gradient(135deg, #f7b600, #ff9500); color: #000;">
