@@ -1,48 +1,74 @@
-# Gotham Voyager App Mockup
+# Gotham GO+ Premium App
 
-An interactive mobile app mockup for the Gotham GO+ Voyager credit card and travel companion app.
+An interactive premium mobile app mockup for the Gotham GO+ credit card and travel companion app, featuring a sophisticated dark mode design with advanced visual effects.
 
 ## 🔗 Live Demo
 View the app mockup: [https://dorian014.github.io/app-mockup-janique/](https://dorian014.github.io/app-mockup-janique/)
 
-## 📱 Features
+## ✨ Premium Features
 
-### Home Screen
-- User welcome with avatar
-- Main balance display with gradient card design
-- Multi-currency wallet (Euro wallet with live exchange rates)
-- Recent transaction history with location data
+### 🏠 Home Screen
+- Personalized welcome with animated gradient avatar
+- Premium credit card with shimmer effect animation
+- Real-time multi-currency wallets (EUR, USD) with exchange rates
+- Recent transactions with XP rewards and bonus multipliers
+- Glass morphism effects on all cards
 
-### Voyager Quests Screen
-- Gamified travel challenges
-- Location-based quests (Paris, France)
-- Progress tracking bars
-- Reward system with badges and cashback
-- Completed quest indicators
+### 🌍 Globe Goals Screen
+- Gamified travel achievements system
+- Location-based challenges with animated progress bars
+- Dynamic rewards including cashback and badges
+- Travel statistics dashboard
+- Floating animations and glow effects
 
-### Concierge+ Support Screen
-- 24/7 support access
-- Emergency card freeze option
-- Clean, focused design for quick assistance
+### 🛡️ Concierge+ Support
+- Premium 24/7 support interface
+- Quick access emergency actions
+- Animated gradient buttons with ripple effects
+- Medical help and lost & found shortcuts
+- Floating shield icon with glow effect
 
-## 🎨 Design
-- Light theme with modern gradients
-- Gotham brand colors (#00aaff blue, #f7b600 gold)
-- Interactive phone mockup with realistic bezel
-- Bottom navigation with active state indicators
-- Smooth screen transitions
+## 🎨 Design Excellence
+
+### Dark Mode Theme
+- Sophisticated dark background (#0a0e1a) with gradient overlays
+- Glass morphism effects with backdrop blur
+- Premium color palette with Gotham brand colors (#00aaff blue, #f7b600 gold)
+
+### iPhone 14 Pro Mockup
+- Realistic Dynamic Island implementation
+- Authentic status bar with time and battery
+- Premium rounded corners and bezels
+- True-to-life dimensions (390x844px)
+
+### Advanced Animations
+- Shimmer effect on main card
+- Smooth screen transitions (slide left/right)
+- Progress bar shine animations
+- Floating elements with ease-in-out timing
+- Button ripple effects on interaction
+- Staggered entrance animations for transactions
+
+### Visual Effects
+- Glass cards with inner glow
+- Gradient text effects
+- Box shadows with colored glows
+- Active state indicators with animated dots
+- Hover transformations and scale effects
 
 ## 💻 Technologies
 - HTML5
 - Tailwind CSS
 - Vanilla JavaScript
 - Google Fonts (Poppins)
+- CSS3 Animations & Transforms
+- Backdrop Filter (Glass Morphism)
 
 ## 🚀 Navigation
-Click the bottom navigation icons to switch between:
-- **Home**: Main dashboard with balance and transactions
-- **Quests**: Travel challenges and rewards
-- **Support**: 24/7 Concierge+ assistance
+Seamless navigation with animated transitions:
+- **Home**: Dashboard with balance, wallets, and activity
+- **Goals**: Travel achievements and rewards tracking
+- **Support**: Premium Concierge+ assistance
 
 ---
 
