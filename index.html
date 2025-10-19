@@ -3,218 +3,533 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gotham Voyager App</title>
+    <title>Gotham GO+ App - Premium Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
             font-family: 'Poppins', sans-serif;
-            background-color: #E5E7EB; /* Light gray background */
         }
+
+        body {
+            background: #0a0e1a;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(0, 170, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(247, 182, 0, 0.1) 0%, transparent 50%);
+        }
+
+        /* Phone Container */
         .phone-container {
-            width: 414px;
-            height: 896px;
+            width: 390px;
+            height: 844px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            width: 126px;
+            height: 37px;
+            background: #000;
+            border-radius: 20px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            position: absolute;
+            top: 14px;
+            left: 35px;
+            right: 35px;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 90;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Screens */
         .screen {
             display: none;
-            background-color: #F9FAFB; /* Off-white screen background */
+            animation: fadeIn 0.4s ease;
+            background: linear-gradient(180deg, #0a0e1a 0%, #131825 100%);
         }
+
         .screen.active {
             display: block;
         }
-        .nav-item.active svg,
-        .nav-item.active p {
-            color: #00aaff; /* Gotham Brand Blue */
+
+        .screen.slide-out-left {
+            animation: slideOutLeft 0.3s ease forwards;
         }
-        /* Custom gradient for the main card from presentation */
-        .app-main-card-bg {
-             background: linear-gradient(135deg, #EA580C, #6B21A8);
+
+        .screen.slide-in-right {
+            animation: slideInRight 0.3s ease forwards;
         }
-        /* Light card style */
-        .card-bg {
-            background-color: #ffffff;
-            border: 1px solid #E5E7EB;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        /* Gradient text from presentation */
+
+        @keyframes slideOutLeft {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Glass Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 0 32px rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 48px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(0, 170, 255, 0.1);
+        }
+
+        /* Main Card Gradient */
+        .main-card {
+            background: linear-gradient(135deg, #EA580C 0%, #6B21A8 50%, #2563EB 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h30v30H10zM60 60h30v30H60z' fill='%23fff' fill-opacity='0.03'/%3E%3C/svg%3E");
+            background-size: 50px 50px;
+        }
+
+        .main-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* Brand Gradient Text */
         .brand-gradient-text {
             background: linear-gradient(90deg, #00aaff, #f7b600);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navigation */
+        .nav-item {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: #00aaff;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #00aaff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+
+        /* Quest Progress Bar */
+        .quest-progress {
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quest-progress-fill {
+            background: linear-gradient(90deg, #00aaff, #f7b600);
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .quest-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Transaction Item */
+        .transaction-item {
+            animation: slideUp 0.3s ease backwards;
+        }
+
+        .transaction-item:nth-child(1) { animation-delay: 0.1s; }
+        .transaction-item:nth-child(2) { animation-delay: 0.2s; }
+        .transaction-item:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            background: linear-gradient(135deg, #00aaff, #0088cc);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Floating Animation */
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Glow Effects */
+        .glow-blue {
+            box-shadow: 0 0 40px rgba(0, 170, 255, 0.3);
+        }
+
+        .glow-gold {
+            box-shadow: 0 0 40px rgba(247, 182, 0, 0.3);
         }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
-    <div class="phone-container bg-black rounded-[60px] border-[14px] border-gray-800 shadow-2xl overflow-hidden relative">
-        <div class="absolute top-0 left-0 right-0 h-8 bg-black flex justify-center items-center rounded-t-[46px]">
-             <div class="w-40 h-6 bg-black rounded-b-2xl absolute top-0"></div>
-        </div>
-        
-        <main class="w-full h-full pt-8">
-            <!-- Screen 1: Home -->
-            <div id="home" class="screen active p-6 h-[calc(100%-80px)] overflow-y-auto text-gray-800" style="background-image: linear-gradient(to bottom right, #ffffff, #f0f2f5);">
-                <!-- Header -->
-                <div class="flex justify-between items-center mb-6">
+    <!-- Phone Mockup -->
+    <div class="phone-container bg-gray-900 rounded-[55px] p-2 shadow-2xl relative">
+        <div class="bg-black rounded-[50px] h-full relative overflow-hidden">
+
+            <!-- Dynamic Island -->
+            <div class="dynamic-island"></div>
+
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <span>9:41</span>
+                <div class="flex gap-1">
+                    <svg width="17" height="12" fill="white"><path d="M1 4h3v7H1zM5.5 3h3v8h-3zM10 1h3v10h-3zM14.5 2h3v9h-3z"/></svg>
+                    <svg width="15" height="11" fill="white"><path d="M2.5 0h9L14 2.5v6L11.5 11h-9L0 8.5v-6z"/></svg>
+                    <span class="text-[10px]">100%</span>
+                </div>
+            </div>
+
+            <main class="w-full h-full pt-14">
+
+                <!-- Screen 1: Home -->
+                <div id="home" class="screen active p-6 h-[calc(100%-80px)] overflow-y-auto text-white">
+
+                    <!-- Header -->
+                    <div class="flex justify-between items-center mb-6 animation-fadeIn">
+                        <div>
+                            <p class="text-gray-400 text-sm">Welcome back,</p>
+                            <h1 class="text-3xl font-bold brand-gradient-text">Alex</h1>
+                        </div>
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 p-0.5 glow-blue">
+                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar" class="rounded-full">
+                        </div>
+                    </div>
+
+                    <!-- Main Balance Card -->
+                    <div class="main-card text-white p-6 rounded-3xl mb-6 relative z-10">
+                        <div class="relative z-10">
+                            <p class="text-gray-200/80 text-sm font-light">Total Balance</p>
+                            <p class="text-4xl font-bold tracking-tight mt-1">£4,206.50</p>
+                            <div class="flex items-center gap-2 mt-4">
+                                <div class="w-8 h-6 bg-gold-500/30 rounded"></div>
+                                <p class="text-gray-200/60 font-mono text-sm tracking-wider">•••• •••• •••• 1234</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Multi-Currency Wallets -->
+                    <div class="mb-6">
+                        <h2 class="text-lg font-semibold text-gray-300 mb-3">Multi-Currency Wallets</h2>
+                        <div class="space-y-3">
+                            <div class="glass-card p-4 rounded-2xl flex justify-between items-center">
+                                <div>
+                                    <p class="text-2xl font-bold text-white">€1,250.30</p>
+                                    <p class="text-sm text-gray-400">Euro Wallet</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-green-400">↑ 0.2%</p>
+                                    <p class="text-xs text-gray-500">1 GBP = 1.18 EUR</p>
+                                </div>
+                            </div>
+                            <div class="glass-card p-4 rounded-2xl flex justify-between items-center">
+                                <div>
+                                    <p class="text-2xl font-bold text-white">$850.00</p>
+                                    <p class="text-sm text-gray-400">USD Wallet</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-red-400">↓ 0.5%</p>
+                                    <p class="text-xs text-gray-500">1 GBP = 1.27 USD</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
                     <div>
-                        <p class="text-gray-500">Welcome back,</p>
-                        <h1 class="text-2xl font-bold brand-gradient-text">Alex</h1>
-                    </div>
-                    <div class="w-12 h-12 rounded-full border-2 border-purple-400 p-0.5">
-                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar" class="rounded-full">
+                        <h2 class="text-lg font-semibold text-gray-300 mb-3">Recent Activity</h2>
+                        <div class="space-y-3">
+                            <div class="transaction-item glass-card p-4 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center text-xl">
+                                        ☕
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-white">Pret a Manger</p>
+                                        <p class="text-xs text-gray-400">London, UK • 2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-white">-£5.50</p>
+                                    <p class="text-xs text-green-400">+150 XP</p>
+                                </div>
+                            </div>
+
+                            <div class="transaction-item glass-card p-4 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-xl">
+                                        🚇
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-white">TfL Underground</p>
+                                        <p class="text-xs text-gray-400">London, UK • 5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-white">-£2.80</p>
+                                    <p class="text-xs text-green-400">+50 XP</p>
+                                </div>
+                            </div>
+
+                            <div class="transaction-item glass-card p-4 rounded-xl flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-xl">
+                                        🛍️
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-white">Harrods</p>
+                                        <p class="text-xs text-gray-400">London, UK • Yesterday</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-white">-£127.00</p>
+                                    <p class="text-xs text-gold-400">2x Points!</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Main Balance Card -->
-                <div class="app-main-card-bg text-white p-6 rounded-2xl mb-6 shadow-lg shadow-purple-500/30">
-                    <p class="text-gray-200 text-sm">Main Balance</p>
-                    <p class="text-4xl font-bold tracking-tight">£1,250.75</p>
-                    <p class="text-gray-300 mt-2 font-mono text-sm">**** **** **** 1234</p>
-                </div>
-                
-                <!-- Multi-Currency Wallet -->
-                <div class="mb-6">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-3">Your Wallets</h2>
-                     <div class="card-bg p-4 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-200">
-                        <div class="flex justify-between items-center">
+                <!-- Screen 2: Globe Goals (Quests) -->
+                <div id="quests" class="screen p-6 h-[calc(100%-80px)] overflow-y-auto text-white">
+                    <h1 class="text-3xl font-bold brand-gradient-text mb-1">Globe Goals</h1>
+                    <p class="text-gray-400 text-sm mb-6">Active in London, United Kingdom</p>
+
+                    <div class="space-y-4">
+                        <!-- Active Quest -->
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-blue-500 glow-blue">
+                            <div class="flex items-start gap-4">
+                                <div class="text-3xl float-animation">🎭</div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-lg text-white">West End Wonder</h3>
+                                    <p class="text-sm text-gray-400 mb-3">Experience London's culture - visit a museum, theatre, and gallery.</p>
+                                    <p class="text-xs font-semibold text-blue-400 mb-2">REWARD: £20 Cashback + "Culture Champion" Badge</p>
+                                    <div class="quest-progress h-2 rounded-full overflow-hidden">
+                                        <div class="quest-progress-fill h-full rounded-full" style="width: 66%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-2">2 of 3 completed</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Quest -->
+                        <div class="glass-card p-5 rounded-2xl border-l-4 border-purple-500">
+                            <div class="flex items-start gap-4">
+                                <div class="text-3xl">🍴</div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-lg text-white">London Foodie</h3>
+                                    <p class="text-sm text-gray-400 mb-3">Try 5 different cuisines in London restaurants.</p>
+                                    <p class="text-xs font-semibold text-purple-400 mb-2">REWARD: 3x Points for a week</p>
+                                    <div class="quest-progress h-2 rounded-full overflow-hidden">
+                                        <div class="quest-progress-fill h-full rounded-full" style="width: 40%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-2">2 of 5 completed</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Completed Quest -->
+                        <div class="glass-card p-5 rounded-2xl opacity-60 border-l-4 border-green-500">
+                            <div class="flex items-start gap-4">
+                                <div class="text-3xl">✅</div>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-lg text-gray-400 line-through">Transport Master</h3>
+                                    <p class="text-sm text-gray-500 mb-3">Use 3 different transport methods in one day.</p>
+                                    <p class="text-xs font-semibold text-green-400 mb-2">COMPLETED: £10 Cashback earned!</p>
+                                    <div class="quest-progress h-2 rounded-full overflow-hidden bg-green-500/20">
+                                        <div class="h-full rounded-full bg-green-500" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="mt-8 glass-card p-4 rounded-2xl">
+                        <h3 class="font-semibold text-white mb-3">Your Travel Stats</h3>
+                        <div class="grid grid-cols-3 gap-4 text-center">
                             <div>
-                                <p class="text-xl font-bold text-orange-900">€450.30</p>
-                                <p class="text-sm text-orange-800/80">Euro Wallet</p>
+                                <p class="text-2xl font-bold brand-gradient-text">12</p>
+                                <p class="text-xs text-gray-400">Countries</p>
                             </div>
-                            <div class="text-right">
-                                <p class="text-sm font-semibold text-gray-700">1 GBP = 1.18 EUR</p>
-                                <p class="text-xs text-amber-600 font-semibold">Live Rate</p>
+                            <div>
+                                <p class="text-2xl font-bold brand-gradient-text">47</p>
+                                <p class="text-xs text-gray-400">Quests Done</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold brand-gradient-text">15.2k</p>
+                                <p class="text-xs text-gray-400">XP Earned</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Screen 3: Concierge+ Support -->
+                <div id="support" class="screen p-6 h-[calc(100%-80px)] flex flex-col justify-center items-center text-center text-white">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center mb-6 float-animation glow-blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                    </div>
 
-                <!-- Recent Transactions -->
-                <div>
-                    <h2 class="text-lg font-semibold text-gray-800 mb-3">Recent Transactions</h2>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between p-3 card-bg rounded-lg border-l-4 border-red-400">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3 text-xl">☕️</div>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Café de Flore</p>
-                                    <p class="text-sm text-gray-500">Paris, France</p>
-                                </div>
-                            </div>
-                            <p class="font-semibold text-red-600">-€5.50</p>
+                    <h1 class="text-3xl font-bold brand-gradient-text mb-3">Concierge+</h1>
+                    <p class="text-gray-400 max-w-sm mb-8">Premium 24/7 support for all your travel needs. We're here to help with emergencies, bookings, and local recommendations.</p>
+
+                    <div class="w-full space-y-3">
+                        <button class="btn-primary w-full text-white font-bold py-4 px-4 rounded-2xl transition-all transform hover:scale-105 relative overflow-hidden">
+                            <span class="relative z-10">💬 Start Live Chat</span>
+                        </button>
+
+                        <button class="w-full glass-card text-white font-bold py-4 px-4 rounded-2xl transition-all transform hover:scale-105">
+                            📞 Call Support
+                        </button>
+
+                        <button class="w-full bg-red-500/20 border border-red-500/50 text-red-400 font-bold py-4 px-4 rounded-2xl transition-all transform hover:scale-105 hover:bg-red-500/30">
+                            🔒 Freeze Card
+                        </button>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="mt-8 grid grid-cols-2 gap-3 w-full">
+                        <div class="glass-card p-4 rounded-xl">
+                            <p class="text-2xl mb-1">🏥</p>
+                            <p class="text-xs text-gray-400">Medical Help</p>
                         </div>
-                        <div class="flex items-center justify-between p-3 card-bg rounded-lg border-l-4 border-purple-400">
-                             <div class="flex items-center">
-                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3 text-xl">🖼️</div>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Musée du Louvre</p>
-                                    <p class="text-sm text-gray-500">Paris, France</p>
-                                </div>
-                            </div>
-                            <p class="font-semibold text-red-600">-€17.00</p>
-                        </div>
-                        <div class="flex items-center justify-between p-3 card-bg rounded-lg border-l-4 border-green-400">
-                           <div class="flex items-center">
-                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3 text-xl">🚇</div>
-                                <div>
-                                    <p class="font-semibold text-gray-800">Paris Metro</p>
-                                    <p class="text-sm text-gray-500">Paris, France</p>
-                                </div>
-                            </div>
-                            <p class="font-semibold text-red-600">-€2.10</p>
+                        <div class="glass-card p-4 rounded-xl">
+                            <p class="text-2xl mb-1">📍</p>
+                            <p class="text-xs text-gray-400">Lost & Found</p>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Screen 2: Quests -->
-            <div id="quests" class="screen p-6 h-[calc(100%-80px)] overflow-y-auto text-gray-800">
-                <h1 class="text-3xl font-bold mb-1 brand-gradient-text">Voyager Quests</h1>
-                <p class="text-gray-500 mb-6">Active in Paris, France</p>
-                
-                <div class="space-y-4">
-                    <div class="card-bg p-4 rounded-2xl bg-gradient-to-br from-white to-purple-100">
-                        <div class="flex items-start">
-                            <div class="text-3xl mr-4">🥐</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-800">Parisian Foodie</h3>
-                                <p class="text-sm text-gray-600 mb-3">Make a purchase at a bakery, a fromagerie, and a café.</p>
-                                <p class="text-xs font-semibold text-purple-700 mb-2">REWARD: 1.5x Points Boost</p>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-purple-500 h-2.5 rounded-full" style="width: 33%"></div>
-                                </div>
-                                <p class="text-xs text-right text-gray-500 mt-1">1 of 3 complete</p>
-                            </div>
-                        </div>
-                    </div>
+            </main>
 
-                     <div class="card-bg p-4 rounded-2xl bg-gradient-to-br from-white to-blue-100">
-                        <div class="flex items-start">
-                            <div class="text-3xl mr-4">🏛️</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-800">Museum Marathon</h3>
-                                <p class="text-sm text-gray-600 mb-3">Visit and make a purchase at 2 different museums.</p>
-                                <p class="text-xs font-semibold text-blue-700 mb-2">REWARD: "Culture Vulture" Badge</p>
-                                 <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 50%"></div>
-                                </div>
-                                <p class="text-xs text-right text-gray-500 mt-1">1 of 2 complete</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-bg p-4 rounded-2xl opacity-70 bg-gradient-to-br from-white to-green-100">
-                        <div class="flex items-start">
-                            <div class="text-3xl mr-4">✅</div>
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-500 line-through">Transport Tamer</h3>
-                                <p class="text-sm text-gray-400 mb-3">Use your card on the Metro, a bus, and a city bike.</p>
-                                <p class="text-xs font-semibold text-green-700 mb-2">REWARD: £5 Cashback (Claimed)</p>
-                                 <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 100%"></div>
-                                </div>
-                                <p class="text-xs text-right text-gray-500 mt-1">3 of 3 complete</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Screen 3: Support -->
-            <div id="support" class="screen p-6 h-[calc(100%-80px)] flex flex-col justify-center items-center text-center text-gray-800" style="background-image: radial-gradient(circle, #E0F2FE, #F9FAFB 60%);">
-                 <div class="w-24 h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <!-- Bottom Navigation -->
+            <nav class="absolute bottom-0 left-0 right-0 h-20 glass-card border-t border-gray-700 flex justify-around items-center rounded-b-[48px]">
+                <button class="nav-item active flex flex-col items-center justify-center text-gray-400 py-2" onclick="switchScreen('home', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                 </div>
-                <h1 class="text-3xl font-bold mb-2 brand-gradient-text">Concierge+</h1>
-                <p class="text-gray-600 max-w-sm mb-8">Get instant help with travel emergencies, card issues, or disputes. Our award-winning team is here for you 24/7.</p>
-
-                <button class="w-full bg-[#00aaff] hover:bg-blue-500 text-white font-bold py-4 px-4 rounded-2xl mb-4 transition-transform transform hover:scale-105 shadow-lg shadow-blue-500/30">
-                    Contact Support 24/7
+                    <p class="text-xs mt-1">Home</p>
                 </button>
-                <button class="w-full bg-red-100 hover:bg-red-200 text-red-700 font-bold py-4 px-4 rounded-2xl transition-transform transform hover:scale-105">
-                    Freeze Card Immediately
+                <button class="nav-item flex flex-col items-center justify-center text-gray-400 py-2" onclick="switchScreen('quests', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <p class="text-xs mt-1">Goals</p>
                 </button>
-            </div>
-        </main>
-        
-        <!-- Bottom Navigation -->
-        <nav class="absolute bottom-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-sm border-t border-gray-200 flex justify-around items-center rounded-b-[46px]">
-            <button class="nav-item active flex flex-col items-center justify-center text-gray-500" onclick="switchScreen('home', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                <p class="text-xs mt-1">Home</p>
-            </button>
-            <button class="nav-item flex flex-col items-center justify-center text-gray-500" onclick="switchScreen('quests', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <p class="text-xs mt-1">Quests</p>
-            </button>
-            <button class="nav-item flex flex-col items-center justify-center text-gray-500" onclick="switchScreen('support', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <p class="text-xs mt-1">Support</p>
-            </button>
-        </nav>
+                <button class="nav-item flex flex-col items-center justify-center text-gray-400 py-2" onclick="switchScreen('support', this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <p class="text-xs mt-1">Support</p>
+                </button>
+            </nav>
+        </div>
     </div>
 
     <script>
@@ -222,21 +537,29 @@
         const navItems = document.querySelectorAll('.nav-item');
 
         function switchScreen(screenId, element) {
-            // Hide all screens
-            screens.forEach(screen => {
-                screen.classList.remove('active');
-            });
-            // Show the target screen
-            document.getElementById(screenId).classList.add('active');
+            const currentScreen = document.querySelector('.screen.active');
+            const newScreen = document.getElementById(screenId);
 
-            // Update nav item active state
-            navItems.forEach(item => {
-                item.classList.remove('active');
-            });
-            // Add active class to the clicked button
+            if (currentScreen === newScreen) return;
+
+            // Animate out current screen
+            currentScreen.classList.add('slide-out-left');
+
+            setTimeout(() => {
+                currentScreen.classList.remove('active', 'slide-out-left');
+
+                // Animate in new screen
+                newScreen.classList.add('active', 'slide-in-right');
+
+                setTimeout(() => {
+                    newScreen.classList.remove('slide-in-right');
+                }, 300);
+            }, 300);
+
+            // Update nav
+            navItems.forEach(item => item.classList.remove('active'));
             element.classList.add('active');
         }
     </script>
 </body>
 </html>
-
