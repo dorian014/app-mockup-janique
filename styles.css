@@ -1,0 +1,466 @@
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #0a0e1a;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(0, 170, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(247, 182, 0, 0.1) 0%, transparent 50%);
+}
+
+/* Phone Container */
+.phone-container {
+    width: 390px;
+    height: 844px;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+/* Dynamic Island */
+.dynamic-island {
+    width: 126px;
+    height: 37px;
+    background: #000;
+    border-radius: 20px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+/* Status Bar */
+.status-bar {
+    position: absolute;
+    top: 14px;
+    left: 35px;
+    right: 35px;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 90;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Screens */
+.screen {
+    display: none;
+    animation: fadeIn 0.4s ease;
+    background: radial-gradient(circle at center, rgba(224, 242, 254, 0.03) 0%, #0a0e1a 60%);
+}
+
+.screen.active {
+    display: block;
+}
+
+.screen.slide-out-left {
+    animation: slideOutLeft 0.3s ease forwards;
+}
+
+.screen.slide-in-right {
+    animation: slideInRight 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideOutLeft {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Glass Card Effect */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 0 32px rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 48px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(0, 170, 255, 0.1);
+}
+
+/* Main Card Gradient */
+.main-card {
+    background: linear-gradient(135deg, #EA580C 0%, #6B21A8 50%, #2563EB 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h30v30H10zM60 60h30v30H60z' fill='%23fff' fill-opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 50px 50px;
+}
+
+.main-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%
+    );
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Brand Gradient Text */
+.brand-gradient-text {
+    background: linear-gradient(90deg, #00aaff, #f7b600);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Navigation */
+.nav-item {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-item.active {
+    color: #00aaff;
+}
+
+.nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: #00aaff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+}
+
+/* Quest Progress Bar */
+.quest-progress {
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.quest-progress-fill {
+    background: linear-gradient(90deg, #00aaff, #f7b600);
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.quest-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Transaction Item */
+.transaction-item {
+    animation: slideUp 0.3s ease backwards;
+}
+
+.transaction-item:nth-child(1) { animation-delay: 0.1s; }
+.transaction-item:nth-child(2) { animation-delay: 0.2s; }
+.transaction-item:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Button Effects */
+.btn-primary {
+    background: linear-gradient(135deg, #00aaff, #0088cc);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Floating Animation */
+.float-animation {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Glow Effects */
+.glow-blue {
+    box-shadow: 0 0 40px rgba(0, 170, 255, 0.3);
+}
+
+.glow-gold {
+    box-shadow: 0 0 40px rgba(247, 182, 0, 0.3);
+}
+
+/* Custom Scrollbar Styles */
+.screen::-webkit-scrollbar {
+    width: 6px;
+}
+
+.screen::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.screen::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00aaff 0%, #f7b600 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+}
+
+.screen::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #0099ee 0%, #e6a500 100%);
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
+}
+
+/* Firefox Scrollbar Support */
+.screen {
+    scrollbar-width: thin;
+    scrollbar-color: #00aaff rgba(255, 255, 255, 0.02);
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.screen {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Tab Navigation Styles */
+.tab-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #00aaff, #0088cc);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 20px rgba(0, 170, 255, 0.3);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: tabShine 2s infinite;
+}
+
+@keyframes tabShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Achievement Card Styles */
+.achievement-card {
+    border-radius: 20px;
+    position: relative;
+    background: #1a1f2e;
+    padding: 3px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.achievement-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+.achievement-card.culture-card {
+    --gradient-start: #00aaff;
+    --gradient-end: #00ffaa;
+}
+
+.achievement-card.foodie-card {
+    --gradient-start: #9333ea;
+    --gradient-end: #ec4899;
+}
+
+.achievement-card.diamond-card {
+    --gradient-start: #fbbf24;
+    --gradient-end: #f59e0b;
+}
+
+.achievement-card-inner {
+    background: linear-gradient(135deg, #2a3447 0%, #1a1f2e 100%);
+    border-radius: 17px;
+    padding: 24px;
+    text-align: center;
+}
+
+.achievement-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    display: block;
+    animation: float 4s ease-in-out infinite;
+}
+
+.achievement-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.achievement-description {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.achievement-share {
+    padding-top: 16px;
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.achievement-share-label {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.achievement-share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.share-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.share-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.share-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: #94a3b8;
+}
+
+.share-btn:hover svg {
+    fill: white;
+}

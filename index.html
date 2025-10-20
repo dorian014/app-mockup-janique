@@ -6,474 +6,7 @@
     <title>Gotham GO+ App - Premium Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: #0a0e1a;
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(0, 170, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(247, 182, 0, 0.1) 0%, transparent 50%);
-        }
-
-        /* Phone Container */
-        .phone-container {
-            width: 390px;
-            height: 844px;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        /* Dynamic Island */
-        .dynamic-island {
-            width: 126px;
-            height: 37px;
-            background: #000;
-            border-radius: 20px;
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-        }
-
-        /* Status Bar */
-        .status-bar {
-            position: absolute;
-            top: 14px;
-            left: 35px;
-            right: 35px;
-            height: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 90;
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* Screens */
-        .screen {
-            display: none;
-            animation: fadeIn 0.4s ease;
-            background: radial-gradient(circle at center, rgba(224, 242, 254, 0.03) 0%, #0a0e1a 60%);
-        }
-
-        .screen.active {
-            display: block;
-        }
-
-        .screen.slide-out-left {
-            animation: slideOutLeft 0.3s ease forwards;
-        }
-
-        .screen.slide-in-right {
-            animation: slideInRight 0.3s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideOutLeft {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(-100%); opacity: 0; }
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Glass Card Effect */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 0 32px rgba(255, 255, 255, 0.02);
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
-            box-shadow:
-                0 12px 48px rgba(0, 0, 0, 0.4),
-                0 0 40px rgba(0, 170, 255, 0.1);
-        }
-
-        /* Main Card Gradient */
-        .main-card {
-            background: linear-gradient(135deg, #EA580C 0%, #6B21A8 50%, #2563EB 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .main-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h30v30H10zM60 60h30v30H60z' fill='%23fff' fill-opacity='0.03'/%3E%3C/svg%3E");
-            background-size: 50px 50px;
-        }
-
-        .main-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 70%
-            );
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        /* Brand Gradient Text */
-        .brand-gradient-text {
-            background: linear-gradient(90deg, #00aaff, #f7b600);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Navigation */
-        .nav-item {
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-item.active {
-            color: #00aaff;
-        }
-
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: #00aaff;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
-        }
-
-        /* Quest Progress Bar */
-        .quest-progress {
-            background: rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quest-progress-fill {
-            background: linear-gradient(90deg, #00aaff, #f7b600);
-            transition: width 0.5s ease;
-            position: relative;
-        }
-
-        .quest-progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: progressShine 2s infinite;
-        }
-
-        @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Transaction Item */
-        .transaction-item {
-            animation: slideUp 0.3s ease backwards;
-        }
-
-        .transaction-item:nth-child(1) { animation-delay: 0.1s; }
-        .transaction-item:nth-child(2) { animation-delay: 0.2s; }
-        .transaction-item:nth-child(3) { animation-delay: 0.3s; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Button Effects */
-        .btn-primary {
-            background: linear-gradient(135deg, #00aaff, #0088cc);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-primary:active::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* Floating Animation */
-        .float-animation {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Glow Effects */
-        .glow-blue {
-            box-shadow: 0 0 40px rgba(0, 170, 255, 0.3);
-        }
-
-        .glow-gold {
-            box-shadow: 0 0 40px rgba(247, 182, 0, 0.3);
-        }
-
-        /* Custom Scrollbar Styles */
-        .screen::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .screen::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-
-        .screen::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #00aaff 0%, #f7b600 100%);
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
-        }
-
-        .screen::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #0099ee 0%, #e6a500 100%);
-            box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
-        }
-
-        /* Firefox Scrollbar Support */
-        .screen {
-            scrollbar-width: thin;
-            scrollbar-color: #00aaff rgba(255, 255, 255, 0.02);
-        }
-
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .screen {
-            -ms-overflow-style: -ms-autohiding-scrollbar;
-        }
-
-        /* Tab Navigation Styles */
-        .tab-nav {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            color: #6b7280;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #00aaff, #0088cc);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 4px 20px rgba(0, 170, 255, 0.3);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: tabShine 2s infinite;
-        }
-
-        @keyframes tabShine {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Achievement Card Styles */
-        .achievement-card {
-            border-radius: 20px;
-            position: relative;
-            background: #1a1f2e;
-            padding: 3px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        .achievement-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            padding: 3px;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: borderGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-
-        .achievement-card.culture-card {
-            --gradient-start: #00aaff;
-            --gradient-end: #00ffaa;
-        }
-
-        .achievement-card.foodie-card {
-            --gradient-start: #9333ea;
-            --gradient-end: #ec4899;
-        }
-
-        .achievement-card.diamond-card {
-            --gradient-start: #fbbf24;
-            --gradient-end: #f59e0b;
-        }
-
-        .achievement-card-inner {
-            background: linear-gradient(135deg, #2a3447 0%, #1a1f2e 100%);
-            border-radius: 17px;
-            padding: 24px;
-            text-align: center;
-        }
-
-        .achievement-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            display: block;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .achievement-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-        }
-
-        .achievement-description {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-
-        .achievement-share {
-            padding-top: 16px;
-            border-top: 1px solid rgba(148, 163, 184, 0.1);
-        }
-
-        .achievement-share-label {
-            font-size: 11px;
-            color: #64748b;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .achievement-share-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .share-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .share-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .share-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: #94a3b8;
-        }
-
-        .share-btn:hover svg {
-            fill: white;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
@@ -607,40 +140,10 @@
                 <!-- Screen 2: Globe Goals (Quests) -->
                 <div id="quests" class="screen p-6 h-[calc(100%-80px)] overflow-y-auto text-white">
                     <h1 class="text-3xl font-bold brand-gradient-text mb-1">Globe Goals</h1>
-                    <p class="text-gray-400 text-sm mb-4">Active in London, United Kingdom</p>
+                    <p class="text-gray-400 text-sm mb-6">Active in London, United Kingdom</p>
 
-                    <!-- Travel Stats -->
-                    <div class="glass-card p-4 rounded-2xl mb-4">
-                        <h3 class="font-semibold text-white mb-3">Your Travel Stats</h3>
-                        <div class="grid grid-cols-3 gap-4 text-center">
-                            <div>
-                                <p class="text-2xl font-bold brand-gradient-text">12</p>
-                                <p class="text-xs text-gray-400">Countries</p>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold brand-gradient-text">47</p>
-                                <p class="text-xs text-gray-400">Goals Done</p>
-                            </div>
-                            <div>
-                                <p class="text-2xl font-bold brand-gradient-text">15.2k</p>
-                                <p class="text-xs text-gray-400">XP Earned</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tab Navigation -->
-                    <div class="tab-nav">
-                        <button class="tab-btn active" onclick="switchTab('active-goals', this)">
-                            Active Goals
-                        </button>
-                        <button class="tab-btn" onclick="switchTab('achievements', this)">
-                            Achievements
-                        </button>
-                    </div>
-
-                    <!-- Tab Content: Active Goals -->
-                    <div id="active-goals" class="tab-content active">
-                        <div class="space-y-4">
+                    <!-- Active Goals -->
+                    <div class="space-y-4">
                         <!-- Active Quest -->
                         <div class="glass-card p-5 rounded-2xl border-l-4 border-blue-500">
                             <div class="flex items-start gap-4">
@@ -687,11 +190,58 @@
                                 </div>
                             </div>
                         </div>
+                </div>
+
+                <!-- Screen 3: My Trips -->
+                <div id="rewards" class="screen p-6 h-[calc(100%-80px)] overflow-y-auto text-white">
+                    <h1 class="text-3xl font-bold brand-gradient-text mb-1">My Trips</h1>
+                    <p class="text-gray-400 text-sm mb-6">Your travel journey & rewards</p>
+
+                    <!-- Travel Stats -->
+                    <div class="glass-card p-4 rounded-2xl mb-4">
+                        <h3 class="font-semibold text-white mb-3">Your Travel Stats</h3>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <p class="text-2xl font-bold brand-gradient-text">12</p>
+                                <p class="text-xs text-gray-400">Countries</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold brand-gradient-text">47</p>
+                                <p class="text-xs text-gray-400">Goals Done</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold brand-gradient-text">15.2k</p>
+                                <p class="text-xs text-gray-400">XP Earned</p>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- XP & Level Card -->
+                    <div class="glass-card p-5 rounded-2xl mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <p class="font-bold text-lg text-white">Level 5: Globe-Trotter</p>
+                            <p class="font-semibold text-gray-300">1,250 / 2,000 XP</p>
+                        </div>
+                        <div class="w-full h-3 bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-yellow-500" style="width: 62.5%">
+                                <div class="h-full bg-gradient-to-r from-transparent to-rgba(255,255,255,0.2) animate-pulse"></div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2 text-right">750 XP to Level 6</p>
+                    </div>
+
+                    <!-- Tab Navigation -->
+                    <div class="tab-nav">
+                        <button class="tab-btn active" onclick="switchTab('my-trips-achievements', this)">
+                            Achievements
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('rewards-hub', this)">
+                            Rewards Hub
+                        </button>
+                    </div>
+
                     <!-- Tab Content: Achievements -->
-                    <div id="achievements" class="tab-content">
+                    <div id="my-trips-achievements" class="tab-content active">
                         <!-- Achievement Card 1: Culture Vulture -->
                         <div class="achievement-card culture-card">
                             <div class="achievement-card-inner">
@@ -767,87 +317,70 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Screen 3: Rewards -->
-                <div id="rewards" class="screen p-6 h-[calc(100%-80px)] overflow-y-auto text-white">
-                    <h1 class="text-3xl font-bold brand-gradient-text mb-1 text-center">Rewards Hub</h1>
-                    <p class="text-gray-400 text-sm mb-6 text-center">Redeem your XP for exclusive perks</p>
-
-                    <!-- XP & Level Card -->
-                    <div class="glass-card p-5 rounded-2xl mb-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <p class="font-bold text-lg text-white">Level 5: Globe-Trotter</p>
-                            <p class="font-semibold text-gray-300">1,250 / 2,000 XP</p>
-                        </div>
-                        <div class="w-full h-3 bg-gray-700 rounded-full overflow-hidden">
-                            <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-yellow-500" style="width: 62.5%">
-                                <div class="h-full bg-gradient-to-r from-transparent to-rgba(255,255,255,0.2) animate-pulse"></div>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-400 mt-2 text-right">750 XP to Level 6</p>
-                    </div>
-
-                    <!-- Redeem XP Section -->
-                    <div class="mb-8">
-                        <h2 class="text-xl font-semibold text-white mb-4">Redeem Your XP</h2>
-                        <div class="space-y-4">
-                            <!-- Financial Perk -->
-                            <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
-                                <div class="flex-1">
-                                    <p class="font-bold text-white mb-1">24hr Cashback Boost</p>
-                                    <p class="text-sm text-gray-400">Get 1.5x cashback on all purchases</p>
+                    <!-- Tab Content: Rewards Hub -->
+                    <div id="rewards-hub" class="tab-content">
+                        <!-- Redeem XP Section -->
+                        <div class="mb-8">
+                            <h2 class="text-xl font-semibold text-white mb-4">Redeem Your XP</h2>
+                            <div class="space-y-4">
+                                <!-- Financial Perk -->
+                                <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-white mb-1">24hr Cashback Boost</p>
+                                        <p class="text-sm text-gray-400">Get 1.5x cashback on all purchases</p>
+                                    </div>
+                                    <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-sm py-2 px-5 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all transform hover:scale-105 shadow-lg">
+                                        500 XP
+                                    </button>
                                 </div>
-                                <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-sm py-2 px-5 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all transform hover:scale-105 shadow-lg">
-                                    500 XP
-                                </button>
-                            </div>
 
-                            <!-- Exclusive Access -->
-                            <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
-                                <div class="flex-1">
-                                    <p class="font-bold text-white mb-1">Trip Lottery Entry</p>
-                                    <p class="text-sm text-gray-400">Win a weekend trip to Rome!</p>
+                                <!-- Exclusive Access -->
+                                <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-white mb-1">Trip Lottery Entry</p>
+                                        <p class="text-sm text-gray-400">Win a weekend trip to Rome!</p>
+                                    </div>
+                                    <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-sm py-2 px-5 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all transform hover:scale-105 shadow-lg">
+                                        250 XP
+                                    </button>
                                 </div>
-                                <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-sm py-2 px-5 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all transform hover:scale-105 shadow-lg">
-                                    250 XP
-                                </button>
-                            </div>
 
-                            <!-- Customization -->
-                            <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
-                                <div class="flex-1">
-                                    <p class="font-bold text-white mb-1">Exclusive Card Skin</p>
-                                    <p class="text-sm text-gray-400">"Midnight Prism" virtual card design</p>
+                                <!-- Customization -->
+                                <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <p class="font-bold text-white mb-1">Exclusive Card Skin</p>
+                                        <p class="text-sm text-gray-400">"Midnight Prism" virtual card design</p>
+                                    </div>
+                                    <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-sm py-2 px-5 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all transform hover:scale-105 shadow-lg">
+                                        1000 XP
+                                    </button>
                                 </div>
-                                <button class="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-sm py-2 px-5 rounded-full hover:from-green-600 hover:to-emerald-600 transition-all transform hover:scale-105 shadow-lg">
-                                    1000 XP
-                                </button>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Level-Up Perks -->
-                    <div>
-                        <h2 class="text-xl font-semibold text-white mb-4">Level-Up Perks</h2>
-                        <div class="glass-card p-5 rounded-2xl">
-                            <p class="font-semibold text-white mb-3 flex items-center">
-                                <span class="text-2xl mr-2">🎯</span> Next Level: Level 6
-                            </p>
-                            <ul class="space-y-2 text-gray-300 text-sm">
-                                <li class="flex items-start">
-                                    <span class="text-green-400 mr-2 mt-0.5">✓</span>
-                                    <span>Waived international ATM fee (1 per month)</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-green-400 mr-2 mt-0.5">✓</span>
-                                    <span>New "Voyager" app icon unlocked</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-green-400 mr-2 mt-0.5">✓</span>
-                                    <span>Priority customer support queue</span>
-                                </li>
-                            </ul>
+                        <!-- Level-Up Perks -->
+                        <div>
+                            <h2 class="text-xl font-semibold text-white mb-4">Level-Up Perks</h2>
+                            <div class="glass-card p-5 rounded-2xl">
+                                <p class="font-semibold text-white mb-3 flex items-center">
+                                    <span class="text-2xl mr-2">🎯</span> Next Level: Level 6
+                                </p>
+                                <ul class="space-y-2 text-gray-300 text-sm">
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-2 mt-0.5">✓</span>
+                                        <span>Waived international ATM fee (1 per month)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-2 mt-0.5">✓</span>
+                                        <span>New "Voyager" app icon unlocked</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-green-400 mr-2 mt-0.5">✓</span>
+                                        <span>Priority customer support queue</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -908,9 +441,9 @@
                 </button>
                 <button class="nav-item flex flex-col items-center justify-center text-gray-400 py-2" onclick="switchScreen('rewards', this)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <p class="text-xs mt-1">Rewards</p>
+                    <p class="text-xs mt-1">My Trips</p>
                 </button>
                 <button class="nav-item flex flex-col items-center justify-center text-gray-400 py-2" onclick="switchScreen('support', this)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -922,48 +455,6 @@
         </div>
     </div>
 
-    <script>
-        const screens = document.querySelectorAll('.screen');
-        const navItems = document.querySelectorAll('.nav-item');
-
-        function switchTab(tabId, element) {
-            // Get all tab buttons and contents within the quests screen
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            // Update active tab button
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-
-            // Update active tab content
-            tabContents.forEach(content => content.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-        }
-
-        function switchScreen(screenId, element) {
-            const currentScreen = document.querySelector('.screen.active');
-            const newScreen = document.getElementById(screenId);
-
-            if (currentScreen === newScreen) return;
-
-            // Animate out current screen
-            currentScreen.classList.add('slide-out-left');
-
-            setTimeout(() => {
-                currentScreen.classList.remove('active', 'slide-out-left');
-
-                // Animate in new screen
-                newScreen.classList.add('active', 'slide-in-right');
-
-                setTimeout(() => {
-                    newScreen.classList.remove('slide-in-right');
-                }, 300);
-            }, 300);
-
-            // Update nav
-            navItems.forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
