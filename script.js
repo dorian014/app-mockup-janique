@@ -40,16 +40,34 @@ function switchScreen(screenId, element) {
     element.classList.add('active');
 }
 
+// Helper function to parse currency string to number
+function parseCurrency(currencyString) {
+    return parseFloat(currencyString.replace(/[^0-9.-]/g, ''));
+}
+
+// Helper function to format currency
+function formatCurrency(amount, symbol) {
+    return `${symbol}${amount.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+}
+
+// Helper function to convert to GBP
+function convertToGBP(amount, exchangeRate) {
+    return Math.round(amount * exchangeRate);
+}
+
 // Trip data
 const tripData = {
     paris: {
         city: 'Paris',
         dates: 'Mar 15-22, 2024',
         flag: '🇫🇷',
-        budget: '£1,250',
+        budget: '€1,475',
         xp: '+2,500',
         totalXp: '2,500 XP',
-        dailyBudget: '£178',
+        dailyBudget: '€210',
+        currency: 'EUR',
+        currencySymbol: '€',
+        exchangeRate: 0.85, // EUR to GBP (approx 1 GBP = 1.18 EUR)
         heroGradient: 'linear-gradient(to bottom right, #ec4899, #9333ea)',
         timeline: [
             { color: '#ef4444', title: 'Day 1-2: Eiffel Tower & Seine', desc: 'Visited iconic landmarks, river cruise' },
@@ -68,10 +86,10 @@ const tripData = {
             { category: '🎯 Challenges', amount: '500 XP' }
         ],
         budgetBreakdown: [
-            { category: '🏨 Accommodation', amount: '£420', percentage: 34 },
-            { category: '🍽️ Dining', amount: '£380', percentage: 30 },
-            { category: '🎫 Activities', amount: '£280', percentage: 22 },
-            { category: '🚊 Transport', amount: '£170', percentage: 14 }
+            { category: '🏨 Accommodation', amount: '€500', percentage: 34 },
+            { category: '🍽️ Dining', amount: '€445', percentage: 30 },
+            { category: '🎫 Activities', amount: '€325', percentage: 22 },
+            { category: '🚊 Transport', amount: '€205', percentage: 14 }
         ]
     },
     tokyo: {
@@ -82,6 +100,9 @@ const tripData = {
         xp: '+3,200',
         totalXp: '3,200 XP',
         dailyBudget: '¥20,000',
+        currency: 'JPY',
+        currencySymbol: '¥',
+        exchangeRate: 0.0063, // JPY to GBP (approx 1 GBP = 158 JPY)
         heroGradient: 'linear-gradient(to bottom right, #ef4444, #db2777)',
         timeline: [
             { color: '#ef4444', title: 'Day 1-3: Shibuya & Shinjuku', desc: 'City exploration, neon lights' },
@@ -115,6 +136,9 @@ const tripData = {
         xp: '+1,800',
         totalXp: '1,800 XP',
         dailyBudget: '$312',
+        currency: 'USD',
+        currencySymbol: '$',
+        exchangeRate: 0.79, // USD to GBP (approx 1 GBP = 1.27 USD)
         heroGradient: 'linear-gradient(to bottom right, #3b82f6, #4f46e5)',
         timeline: [
             { color: '#ef4444', title: 'Day 1-2: Manhattan', desc: 'Times Square, Central Park' },
@@ -147,6 +171,9 @@ const tripData = {
         xp: '+1,500',
         totalXp: '1,500 XP',
         dailyBudget: '€196',
+        currency: 'EUR',
+        currencySymbol: '€',
+        exchangeRate: 0.85, // EUR to GBP (approx 1 GBP = 1.18 EUR)
         heroGradient: 'linear-gradient(to bottom right, #eab308, #ea580c)',
         timeline: [
             { color: '#ef4444', title: 'Day 1-2: Gaudí Tour', desc: 'Sagrada Familia, Park Güell' },
@@ -186,11 +213,32 @@ function showTripDetails(tripId) {
         document.getElementById('trip-city').textContent = trip.city;
         document.getElementById('trip-dates').textContent = trip.dates;
         document.getElementById('trip-flag').textContent = trip.flag;
-        document.getElementById('trip-budget').textContent = trip.budget;
+
+        // Update hero budget display with GBP conversion
+        if (trip.currency !== 'GBP') {
+            const totalAmount = parseCurrency(trip.budget);
+            const totalGBP = convertToGBP(totalAmount, trip.exchangeRate);
+            document.getElementById('trip-budget').innerHTML = `${trip.budget}<br><span class="text-sm text-white/70">(£${totalGBP})</span>`;
+        } else {
+            document.getElementById('trip-budget').textContent = trip.budget;
+        }
+
         document.getElementById('trip-xp').textContent = trip.xp;
         document.getElementById('trip-total-xp').textContent = trip.totalXp;
-        document.getElementById('budget-total').textContent = trip.budget;
-        document.getElementById('budget-daily').textContent = trip.dailyBudget;
+
+        // Update budget display with GBP conversion
+        if (trip.currency !== 'GBP') {
+            const totalAmount = parseCurrency(trip.budget);
+            const dailyAmount = parseCurrency(trip.dailyBudget);
+            const totalGBP = convertToGBP(totalAmount, trip.exchangeRate);
+            const dailyGBP = convertToGBP(dailyAmount, trip.exchangeRate);
+
+            document.getElementById('budget-total').innerHTML = `${trip.budget}<br><span class="text-sm text-gray-400">(£${totalGBP})</span>`;
+            document.getElementById('budget-daily').innerHTML = `${trip.dailyBudget}<br><span class="text-sm text-gray-400">(£${dailyGBP})</span>`;
+        } else {
+            document.getElementById('budget-total').textContent = trip.budget;
+            document.getElementById('budget-daily').textContent = trip.dailyBudget;
+        }
 
         // Update hero gradient with inline style
         const heroElement = document.getElementById('trip-hero');
@@ -230,15 +278,36 @@ function showTripDetails(tripId) {
     `).join('');
     document.getElementById('xp-breakdown').innerHTML = xpHTML;
 
-        // Update budget breakdown with inline styles
+        // Update budget breakdown with inline styles and GBP conversion
         const budgetColors = ['#3b82f6', '#10b981', '#9333ea', '#f97316'];
+        const needsConversion = trip.currency !== 'GBP';
+
+        // Add exchange rate info if needed
+        let exchangeRateHTML = '';
+        if (needsConversion) {
+            const exchangeRateDisplay = (1 / trip.exchangeRate).toFixed(2);
+            exchangeRateHTML = `
+                <div class="mb-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+                    <p class="text-xs text-blue-400 font-semibold">💱 Exchange Rate</p>
+                    <p class="text-xs text-gray-300 mt-1">1 GBP = ${trip.currencySymbol}${exchangeRateDisplay}</p>
+                </div>
+            `;
+        }
+
         const budgetHTML = trip.budgetBreakdown.map((item, index) => {
             const color = budgetColors[index] || '#6b7280';
+            const originalAmount = parseCurrency(item.amount);
+            const gbpAmount = needsConversion ? convertToGBP(originalAmount, trip.exchangeRate) : originalAmount;
+
+            const amountDisplay = needsConversion
+                ? `<span class="text-sm font-semibold text-white">${item.amount} <span class="text-xs text-gray-400">(£${gbpAmount})</span></span>`
+                : `<span class="text-sm font-semibold text-white">${item.amount}</span>`;
+
             return `
                 <div>
                     <div class="flex justify-between mb-1">
                         <span class="text-sm text-gray-400">${item.category}</span>
-                        <span class="text-sm font-semibold text-white">${item.amount}</span>
+                        ${amountDisplay}
                     </div>
                     <div class="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
                         <div class="h-full rounded-full" style="width: ${item.percentage}%; background: linear-gradient(to right, ${color}, ${color}dd)"></div>
@@ -246,7 +315,9 @@ function showTripDetails(tripId) {
                 </div>
             `;
         }).join('');
-        document.getElementById('budget-categories').innerHTML = budgetHTML;
+
+        // Combine exchange rate info and budget categories
+        document.getElementById('budget-categories').innerHTML = exchangeRateHTML + budgetHTML;
 
         // Navigate to trip details screen
         const currentScreen = document.querySelector('.screen.active');
@@ -288,6 +359,52 @@ function backToMyTrips() {
 
         setTimeout(() => {
             myTripsScreen.classList.remove('slide-in-right');
+        }, 300);
+    }, 300);
+}
+
+// Show Achievements Screen
+function showAchievements() {
+    const currentScreen = document.querySelector('.screen.active');
+    const achievementsScreen = document.getElementById('achievements-screen');
+
+    if (!achievementsScreen) {
+        console.error('Achievements screen not found');
+        return;
+    }
+
+    // Animate screen transition
+    currentScreen.classList.add('slide-out-left');
+
+    setTimeout(() => {
+        currentScreen.classList.remove('active', 'slide-out-left');
+        achievementsScreen.classList.add('active', 'slide-in-right');
+
+        setTimeout(() => {
+            achievementsScreen.classList.remove('slide-in-right');
+        }, 300);
+    }, 300);
+}
+
+// Show Rewards Hub Screen
+function showRewardsHub() {
+    const currentScreen = document.querySelector('.screen.active');
+    const rewardsScreen = document.getElementById('rewards-hub-screen');
+
+    if (!rewardsScreen) {
+        console.error('Rewards Hub screen not found');
+        return;
+    }
+
+    // Animate screen transition
+    currentScreen.classList.add('slide-out-left');
+
+    setTimeout(() => {
+        currentScreen.classList.remove('active', 'slide-out-left');
+        rewardsScreen.classList.add('active', 'slide-in-right');
+
+        setTimeout(() => {
+            rewardsScreen.classList.remove('slide-in-right');
         }, 300);
     }, 300);
 }
