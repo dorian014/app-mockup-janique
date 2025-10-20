@@ -176,7 +176,6 @@ const tripData = {
 // Show trip details
 function showTripDetails(tripId) {
     try {
-        console.log('Opening trip details for:', tripId);
         const trip = tripData[tripId];
         if (!trip) {
             console.error('Trip not found:', tripId);
@@ -253,40 +252,22 @@ function showTripDetails(tripId) {
         const currentScreen = document.querySelector('.screen.active');
         const tripScreen = document.getElementById('trip-details');
 
-        console.log('Current screen:', currentScreen ? currentScreen.id : 'none');
-        console.log('Trip screen element:', tripScreen);
-        console.log('Trip screen found:', tripScreen ? 'yes' : 'no');
-
         if (!tripScreen) {
             console.error('Trip details screen not found');
             return;
         }
 
-        // Ensure we start fresh - remove active from all screens first
-        document.querySelectorAll('.screen').forEach(screen => {
-            screen.classList.remove('active', 'slide-in-right', 'slide-out-left');
-        });
+        // Animate screen transition
+        currentScreen.classList.add('slide-out-left');
 
-        // Then activate only the trip details screen
-        tripScreen.classList.add('active');
-        console.log('Trip details screen activated');
-        console.log('Active screens after transition:', document.querySelectorAll('.screen.active').length);
+        setTimeout(() => {
+            currentScreen.classList.remove('active', 'slide-out-left');
+            tripScreen.classList.add('active', 'slide-in-right');
 
-        // Log which screens are active
-        document.querySelectorAll('.screen.active').forEach(screen => {
-            console.log('Active screen ID:', screen.id);
-        });
-
-        // Double-check visibility
-        const supportScreen = document.getElementById('support');
-        console.log('Support screen has active class?', supportScreen.classList.contains('active'));
-        console.log('Trip details screen has active class?', tripScreen.classList.contains('active'));
-
-        // Check computed styles to see what's actually visible
-        const tripStyles = window.getComputedStyle(tripScreen);
-        const supportStyles = window.getComputedStyle(supportScreen);
-        console.log('Trip details display:', tripStyles.display);
-        console.log('Support display:', supportStyles.display);
+            setTimeout(() => {
+                tripScreen.classList.remove('slide-in-right');
+            }, 300);
+        }, 300);
     } catch (error) {
         console.error('Error opening trip details:', error);
         alert('Sorry, there was an error opening the trip details. Please try again.');
@@ -298,13 +279,15 @@ function backToMyTrips() {
     const currentScreen = document.querySelector('.screen.active');
     const myTripsScreen = document.getElementById('rewards');
 
-    console.log('Going back to My Trips');
+    // Animate screen transition
+    currentScreen.classList.add('slide-out-left');
 
-    // Remove active from all screens first
-    document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active', 'slide-in-right', 'slide-out-left');
-    });
+    setTimeout(() => {
+        currentScreen.classList.remove('active', 'slide-out-left');
+        myTripsScreen.classList.add('active', 'slide-in-right');
 
-    // Then activate only My Trips screen
-    myTripsScreen.classList.add('active');
+        setTimeout(() => {
+            myTripsScreen.classList.remove('slide-in-right');
+        }, 300);
+    }, 300);
 }
